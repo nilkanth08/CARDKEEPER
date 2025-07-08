@@ -19,27 +19,29 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.cardkeeper.app"
-    compileSdk = 34
-    ndkVersion = "25.1.8937393"
+    namespace "com.cardkeeper.app"
+    compileSdk 34
+    ndkVersion "25.1.8937393"
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
         jvmTarget = '1.8'
     }
 
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
     defaultConfig {
-        applicationId = "com.cardkeeper.app"
-        minSdk = 21
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0.0"
-        multiDexEnabled true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        applicationId "com.cardkeeper.app"
+        minSdkVersion 21
+        targetSdkVersion 34
+        versionCode 1
+        versionName "1.0.0"
     }
 
     signingConfigs {
@@ -57,40 +59,9 @@ android {
     }
 
     buildTypes {
-        debug {
-            signingConfig signingConfigs.debug
-            debuggable true
-            minifyEnabled false
-            shrinkResources false
-            manifestPlaceholders = [
-                appName: "CardKeeper Debug"
-            ]
-        }
         release {
-            signingConfig keystoreProperties['keyAlias'] != null ? signingConfigs.release : signingConfigs.debug
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            
-            zipAlignEnabled true
-            debuggable false
-            jniDebuggable false
-            renderscriptDebuggable false
-            
-            manifestPlaceholders = [
-                appName: "CardKeeper"
-            ]
+            signingConfig signingConfigs.release
         }
-    }
-    
-    packagingOptions {
-        pickFirst '**/libc++_shared.so'
-        pickFirst '**/libjsc.so'
-    }
-    
-    lintOptions {
-        disable 'InvalidPackage'
-        checkReleaseBuilds false
     }
 }
 
@@ -98,12 +69,4 @@ flutter {
 }
 
 dependencies {
-    implementation "androidx.multidex:multidex:2.0.1"
-    implementation 'androidx.core:core-ktx:1.12.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.10.0'
-    
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
