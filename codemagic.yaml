@@ -7,8 +7,7 @@ workflows:
     scripts:
       - name: Build Flutter APK
         script: |
-          export PATH="$FLUTTER_ROOT/bin:$PATH"
-          flutter pub get
+          $FLUTTER_ROOT/bin/flutter clean && $FLUTTER_ROOT/bin/flutter pub get && $FLUTTER_ROOT/bin/flutter build apk --release
           flutter create . --platforms=android --project-name=cardkeeper
           flutter build apk --release
     artifacts:
